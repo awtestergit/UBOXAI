@@ -1,0 +1,6 @@
+﻿Question,Answer,Department,Team,Usage
+how many chips,45 chips total,,,"input your Q/A row by row. Department/Team are optional, if you want to organize FAQs by dept and/or team"
+do I need a server for this?,You can have a server but it is required.,,,
+"how about other teams, can they use it?","if they are under the same domain, yes they can",IT,,
+"how to get reimbursement, what is the requirement","Gather your receipts, and itnerary, fill it online.",Finance,Operations,
+what GPU is required?,16GB,,,
