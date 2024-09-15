@@ -71,5 +71,37 @@ Reference:
       docker pull awtestergit/uboxai:latest
       ```
     - ```bash
-      docker run --name uboxai -p 11434:11434 -p 5000:5000 -p 5010:5010 -p 5050:5050 -it -d --privileged -v ./:/orig -v $(pwd)/qdrant_storage:/qdrant/storage:z -v dind-certs:/certs -v /var/run/docker.sock:/var/run/docker.sock -e DOCKER_TLS_CERTDIR=/certs awtestergit/uboxai:latest ./entry_start.sh
+      docker run --name uboxai -p 11434:11434 -p 5000:5000 -p 5010:5010 -p 5050:5050 -it -d \
+      --privileged \
+      -v ./:/orig -v $(pwd)/qdrant_storage:/qdrant/storage:z -v dind-certs:/certs -v \
+      /var/run/docker.sock:/var/run/docker.sock -e DOCKER_TLS_CERTDIR=/certs \
+      awtestergit/uboxai:latest \
+      ./entry_start.sh
       ```
+    - That is it! You can go to http://localhost:5050 on your host machine, or http://<host_machine_ip>:5050 from another machine on the same network, where host_machine_ip is the ip of your host machine, e.g, 192.168.x.xx.
+    - The Dochat, Doctract, and Docompare work by now, and for Docknow, you need to populate the Knowledge Warehouse
+      - See [Knowledge Warehouse](#knowledgewarehouse)
+  - # Git pull way
+    - Prepare virtual environment (use your favorite virtual management tool), for example using conda:
+      ```bash
+      conda create -n uboxai python
+      conda activate uboxai
+      ```
+    - Git pull:
+      ```bash
+      git clone https://github.com/awtestergit/UBOXAI.git
+      cd UBOXAI/server
+      pip install -r requirements.txt
+      ```
+    - Nginx installation
+      - https://nginx.org/en/docs/install.html
+      - configure sites: (shown as linux example, check nginx documents for other platforms)
+        - copy 'UBOXAI' file under UBOXAI folder just created, which is the configuration for nginx, to /etc/nginx/sites-available (e.g, cp UBOXAI /etc/nginx/sites-available)
+          - modify 'root /uboxai/ui/build;' in UBOXAI file, use your own ui/build path to replace '/uboxai/ui/build' if necessary
+        - ln -s /etc/nginx/sites-available/UBOXAI /etc/nginx/sites-enabled/ (probably you need to 'sudo ln ...'
+      - restart nginx (in Linux: service nginx restart)
+    - Start uboxai
+      - at uboxai root, start ./entry_start.sh
+        - Note: if you need other machine under same subnet to access the UBOXAI, replace 'source start_uboxai.sh 127.0.0.1' to 'source start_uboxai.sh <host_machine_ip>', where host_machine_ip is the ip of your host machine, e.g, 192.168.x.xx.
+      - That is it! You can go to http://localhost:5050 on your host machine, or http://<host_machine_ip>:5050 from another machine on the same network
+    - If you want to modify the UI and build by yourself, you need to install node, npm, etc, take a look at /ui/requirements.txt
