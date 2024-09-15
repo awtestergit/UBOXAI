@@ -1,0 +1,4 @@
+window.env = {
+  "REACT_APP_UBOXAI_SERVER_IP": "127.0.0.1",
+  "REACT_APP_UBOXAI_SERVER_PORT": "5000"
+};

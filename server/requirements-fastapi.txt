@@ -1,0 +1,17 @@
+faiss-cpu
+fastapi
+gradio
+openai
+ollama
+pandas
+pdfminer-six
+python-docx
+python-multipart
+python-socketio
+qdrant_client
+numpy==1.26.4
+werkzeug
+scipy
+tiktoken
+uvicorn
+packaging

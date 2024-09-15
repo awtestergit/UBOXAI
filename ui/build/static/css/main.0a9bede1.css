@@ -1,0 +1,2 @@
+.accordion-container{border:1px solid #ccc;border-radius:5px;margin-bottom:10px}.accordion-header{align-items:center;background-color:#f1f1f1;cursor:pointer;display:flex;justify-content:space-between;padding:10px}.accordion-header h3{margin:0}.accordion-header .arrow{font-size:20px;transition:transform .3s ease}.accordion-header.open .arrow{transform:rotate(90deg)}.accordion-content{padding:10px}
+/*# sourceMappingURL=main.0a9bede1.css.map*/
