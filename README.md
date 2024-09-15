@@ -6,6 +6,7 @@ Plug-and-Play AI Document Processing & Knowledge Machine for Every Business with
 
 * [Description](#description)
 * [Architecture](#architecture)
+* [SLM in Power](#slminpower)
 * [Installation](#installation)
 * [Notes & Model downloads](#notes)
 
@@ -39,3 +40,36 @@ All services are deployed on one single host machine.
   - If you do not want to set up Ollama, you can use OpenAI by providing your OpenAI key as well.
 
 <img width="913" alt="Screenshot 2024-09-15 at 12 27 03" src="https://github.com/user-attachments/assets/315022da-4268-4ce8-ae70-200e5db77f86">
+
+## SLM In Power
+
+One key constraint of small LLM (SLM) is to control the context length - to make the SLM work in wonder, we need to make the context meaningfully short - the semantic search tree (SST) makes this possible. The tree is built upon long document(s), and the leaf nodes are clustered by their semantic meanings, and so does the parent nodes till root. To retrieve the context for a query, we search this tree for the top contextual results.
+
+Reference:
+- "WALKING DOWN THE MEMORY MAZE: BEYOND CONTEXT LIMIT THROUGH INTERACTIVE READING" https://arxiv.org/pdf/2310.05029
+- R tree: https://www.bartoszsypytkowski.com/r-tree/
+
+## Installation
+
+- # Docker installation 
+  - go to https://www.docker.com/ to install docker if you have not yet installed it.
+- # Qdrant vector database installation
+  - https://qdrant.tech/documentation/quickstart/
+    - ```bash
+      docker pull qdrant/qdrant
+      ```
+    - ```bash
+      docker run -p 6333:6333 -p 6334:6334 -v $(pwd)/qdrant_storage:/qdrant/storage:z qdrant/qdrant
+      ```
+- # Ollama & Models (If you plan to use OpenAI, skip this step)
+  - go to https://ollama.com/ to install ollama if you have not yet installed it.
+  - pull Llama3.1 for LLM, https://ollama.com/library/llama3.1, you can pull 8B or larger depending on your host machine's GPU.
+  - pull nomic-embed-text for embedding, https://ollama.com/library/nomic-embed-text
+- # UBOXAI installation, you can either pull docker (the easiest way) or pull git, build and run
+  - # Docker way
+    - ```bash
+      docker pull awtestergit/uboxai:latest
+      ```
+    - ```bash
+      docker run --name uboxai -p 11434:11434 -p 5000:5000 -p 5010:5010 -p 5050:5050 -it -d --privileged -v ./:/orig -v $(pwd)/qdrant_storage:/qdrant/storage:z -v dind-certs:/certs -v /var/run/docker.sock:/var/run/docker.sock -e DOCKER_TLS_CERTDIR=/certs awtestergit/uboxai:latest ./entry_start.sh
+      ```
