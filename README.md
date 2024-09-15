@@ -31,3 +31,11 @@ Current features include:
 Future work:
 - More AI applications to come.
 
+## Architecture
+
+All services are deployed on one single host machine.
+- You can opt for hosting AI services in a docker (which is the easiest way to deploy).
+- For LLM, Ollama is supported by setting up Ollama on the host machine.
+  - If you do not want to set up Ollama, you can use OpenAI by providing your OpenAI key as well.
+
+<img width="913" alt="Screenshot 2024-09-15 at 12 27 03" src="https://github.com/user-attachments/assets/315022da-4268-4ce8-ae70-200e5db77f86">
