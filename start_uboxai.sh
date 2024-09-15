@@ -47,6 +47,11 @@ if [ ! -f "$FILE" ]; then
 fi
 # overwrite the .env file
 echo -e "$TEXT" > "$FILE"
+
+# restart nginx
+echo "restart nginx..."
+service nginx restart
+
 cd ..
 
 echo "Starting UBOX AI Server..."
