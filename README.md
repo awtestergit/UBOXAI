@@ -1,6 +1,15 @@
-**UBOX-AI:** Plug-and-Play AI Document Processing & Knowledge Machine for Every Business with Full Data Privacy
+**UBOX-AI:** 
 
-# What is it
+Plug-and-Play AI Document Processing & Knowledge Machine for Every Business with Full Data Privacy
+
+## Index
+
+* [Description](#description)
+* [Architecture](#architecture)
+* [Installation](#installation)
+* [Notes & Model downloads](#notes)
+
+## Description
 
 UBOX-AI is an AI-powered machine designed to revolutionize document processing, simplify repetitive tasks, and boost productivity for small businesses and home offices. With UBOX-AI, you can bring the latest in artificial intelligence directly into your workspace with ease and efficiency.
 
