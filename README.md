@@ -51,9 +51,9 @@ Reference:
 
 ## Installation
 
-- # Docker installation 
+- **Docker installation**
   - go to https://www.docker.com/ to install docker if you have not yet installed it.
-- # Qdrant vector database installation
+- **Qdrant vector database installation**
   - https://qdrant.tech/documentation/quickstart/
     - ```bash
       docker pull qdrant/qdrant
@@ -61,12 +61,12 @@ Reference:
     - ```bash
       docker run -p 6333:6333 -p 6334:6334 -v $(pwd)/qdrant_storage:/qdrant/storage:z qdrant/qdrant
       ```
-- # Ollama & Models (If you plan to use OpenAI, skip this step)
+- **Ollama & Models (If you plan to use OpenAI, skip this step)**
   - go to https://ollama.com/ to install ollama if you have not yet installed it.
   - pull Llama3.1 for LLM, https://ollama.com/library/llama3.1, you can pull 8B or larger depending on your host machine's GPU.
   - pull nomic-embed-text for embedding, https://ollama.com/library/nomic-embed-text
-- # UBOXAI installation, you can either pull docker (the easiest way) or pull git, build and run
-  - # Docker way
+- **UBOXAI installation, you can either pull docker (the easiest way) or pull git, build and run**
+  - **Docker way**
     - ```bash
       docker pull awtestergit/uboxai:latest
       ```
@@ -81,7 +81,7 @@ Reference:
     - That is it! You can go to http://localhost:5050 on your host machine, or http://<host_machine_ip>:5050 from another machine on the same network, where host_machine_ip is the ip of your host machine, e.g, 192.168.x.xx.
     - The Dochat, Doctract, and Docompare work by now, and for Docknow, you need to populate the Knowledge Warehouse
       - See [Knowledge Warehouse](#knowledgewarehouse)
-  - # Git pull way
+  - **Git pull way**
     - Prepare virtual environment (use your favorite virtual management tool), for example using conda:
       ```bash
       conda create -n uboxai python
@@ -109,13 +109,13 @@ Reference:
 ## Knowledge Warehouse
 
 Once you have the UBOXAI set up, you can populate the knowledge warehouse, which can store FAQs and your documents (supports PDF or DOCX formats).
-# Note: There are plenty of works needed for the knowledge warehouse manager.
+**Note: There are plenty of works needed for the knowledge warehouse manager.**
 
-- If you use Docker way, you can run this command to get to docker:
+- If you use **Docker way**, you can run this command to get to docker:
 - ```bash
       docker run --name uboxai -p 11434:11434 -p 5000:5000 -p 5010:5010 -p 5050:5050 -it -d --privileged -v ./:/orig -v $(pwd)/qdrant_storage:/qdrant/storage:z -v dind-certs:/certs -v /var/run/docker.sock:/var/run/docker.sock -e DOCKER_TLS_CERTDIR=/certs awtestergit/uboxai:latest
       ```
-- If you use Git pull way, activate the virtual environment, e.g, 'conda activate uboxai'
+- If you use **Git pull way**, activate the virtual environment, e.g, 'conda activate uboxai'
 - go to folder /uboxai/server
 - start venv by 'source /uboxai/bin/activate'
 - start Knowledge Warehouse Manager by 'python vectordb_manager.py'
