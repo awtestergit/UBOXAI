@@ -94,18 +94,18 @@ def create_app(openai_key=''):
     def server_preprocess():
         run_in_docker = g_config["RUN_IN_DOCKER"] == 1 # if running in a docker
         localhost = "127.0.0.1"
-
+        max_embedding_dim = g_config['MAX_EMBEDDING_DIM']
         llm, embed = None, None
         if len(openai_key) > 0:
             llm = GPTModel(openai_key)
-            embed = GPTEmbeddingModel(openai_key)
+            embed = GPTEmbeddingModel(openai_key, max_embedding_dim=max_embedding_dim)
         else:
             ollama_host = g_config["OLLAMA_HOST"] if run_in_docker else f"http://{localhost}:11434"
             ollama_model_name = g_config["OLLAMA_MODEL_NAME"]
             ollama_embed_name = g_config["OLLAMA_EMBED_NAME"]
             model_seq_length = g_config["MODEL_SEQ_LENGTH"]
             llm = OllamaModel(host=ollama_host, model=ollama_model_name, max_context_length=model_seq_length)
-            embed = OllamaNomicEmbeddingModel(host=ollama_host, model=ollama_embed_name, max_context_length=model_seq_length)
+            embed = OllamaNomicEmbeddingModel(host=ollama_host, model=ollama_embed_name, max_context_length=model_seq_length, max_embedding_dim=max_embedding_dim)
 
         # for reranker, skip it for now
         reranker = OllamaReRankerModel() # not yet supported by Ollama

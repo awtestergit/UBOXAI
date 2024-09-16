@@ -8,6 +8,7 @@
     "OLLAMA_MODEL_NAME": "llama3.1",
     "OLLAMA_EMBED_NAME": "nomic-embed-text",
     "MODEL_SEQ_LENGTH": 8192,
+    "MAX_EMBEDDING_DIM": 512,
     "VDBNAME": "vdb_ubox",
     "VDBIP": "host.docker.internal",
     "VDBPORT": 6333,
