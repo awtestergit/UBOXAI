@@ -72,21 +72,11 @@ Reference:
       ```
     - If you use Ollama shown above:
     - ```bash
-      docker run --name uboxai -p 11434:11434 -p 5000:5000 -p 5010:5010 -p 5050:5050 -it -d \
-      --privileged \
-      -v ./:/orig -v $(pwd)/qdrant_storage:/qdrant/storage:z -v dind-certs:/certs -v \
-      /var/run/docker.sock:/var/run/docker.sock -e DOCKER_TLS_CERTDIR=/certs \
-      awtestergit/uboxai:latest \
-      ./entry_start.sh
+      docker run --name uboxai -p 11434:11434 -p 5000:5000 -p 5010:5010 -p 5050:5050 -it -d --privileged -v ./:/orig -v $(pwd)/qdrant_storage:/qdrant/storage:z -v dind-certs:/certs -v /var/run/docker.sock:/var/run/docker.sock -e DOCKER_TLS_CERTDIR=/certs awtestergit/uboxai:latest ./entry_start.sh
       ```
     - If you use OpenAI:
     - ```bash
-      docker run --name uboxai -p 11434:11434 -p 5000:5000 -p 5010:5010 -p 5050:5050 -it -d \
-      --privileged \
-      -v ./:/orig -v $(pwd)/qdrant_storage:/qdrant/storage:z -v dind-certs:/certs -v \
-      /var/run/docker.sock:/var/run/docker.sock -e DOCKER_TLS_CERTDIR=/certs \
-      awtestergit/uboxai:latest \
-      ./entry_start.sh your_openai_key
+      docker run --name uboxai -p 11434:11434 -p 5000:5000 -p 5010:5010 -p 5050:5050 -it -d --privileged -v ./:/orig -v $(pwd)/qdrant_storage:/qdrant/storage:z -v dind-certs:/certs -v /var/run/docker.sock:/var/run/docker.sock -e DOCKER_TLS_CERTDIR=/certs awtestergit/uboxai:latest ./entry_start.sh your_openai_key
       ```
     - That is it! You can go to http://localhost:5050 on your host machine, or http://<host_machine_ip>:5050 from another machine on the same network, where host_machine_ip is the ip of your host machine, e.g, 192.168.x.xx.
     - The Dochat, Doctract, and Docompare work by now, and for Docknow, you need to populate the Knowledge Warehouse
