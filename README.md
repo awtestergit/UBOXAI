@@ -103,6 +103,7 @@ Reference:
         - ln -s /etc/nginx/sites-available/uboxai /etc/nginx/sites-enabled/ (probably you need to 'sudo ln ...'
       - restart nginx (in Linux: service nginx restart)
     - Start uboxai
+      - in server/config.json, change RUN_IN_DOCKER=1 to RUN_IN_DOCKER=0 
       - at uboxai root, start ./entry_start.sh if using Ollama, or ./entry_start.sh <your_open_key> if using OpenAI
         - Note: if you need other machine under same subnet to access the UBOXAI, in entry_start.sh file replace 'source start_uboxai.sh 127.0.0.1' to 'source start_uboxai.sh <host_machine_ip>', where host_machine_ip is the ip of your host machine, e.g, 192.168.x.xx.
       - That is it! You can go to http://localhost:5050 on your host machine, or http://<host_machine_ip>:5050 from another machine on the same network
