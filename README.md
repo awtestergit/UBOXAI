@@ -30,6 +30,8 @@ Current features include:
 - DocKnow - chat with your knowledge warehouse (FAQ & documents)
 
 Future work:
+
+- Knowledge Warehouse Manager improvement.
 - More AI applications to come.
 
 ## Architecture
