@@ -6,9 +6,9 @@ Plug-and-Play AI Document Processing & Knowledge Machine for Every Business with
 
 * [Description](#description)
 * [Architecture](#architecture)
-* [SLM in Power](#slminpower)
+* [SLM in Power](#slm-in-power)
 * [Installation](#installation)
-* [Knowledge Warehouse](#knowledgewarehouse)
+* [Knowledge Warehouse](#knowledge-warehouse)
 
 ## Description
 
@@ -82,7 +82,7 @@ Reference:
       ```
     - That is it! You can go to http://localhost:5050 on your host machine, or http://<host_machine_ip>:5050 from another machine on the same network, where host_machine_ip is the ip of your host machine, e.g, 192.168.x.xx.
     - The Dochat, Doctract, and Docompare work by now, and for Docknow, you need to populate the Knowledge Warehouse
-      - See [Knowledge Warehouse](#knowledgewarehouse)
+      - See [Knowledge Warehouse](#knowledge-warehouse)
   - **Git pull way**
     - Prepare virtual environment (use your favorite virtual management tool), for example using conda:
       ```bash
