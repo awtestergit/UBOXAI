@@ -6,7 +6,7 @@ Plug-and-Play AI Document Processing & Knowledge Machine for Every Business with
 
 * [Description](#description)
 * [Architecture](#architecture)
-* [SLM in Power](#slm-in-power)
+* [Small LLM (SLM) in Power](#slm-in-power)
 * [Installation](#installation)
 * [Knowledge Warehouse](#knowledge-warehouse)
 
