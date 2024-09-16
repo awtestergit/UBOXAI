@@ -106,9 +106,9 @@ Reference:
     - Nginx installation
       - https://nginx.org/en/docs/install.html
       - configure sites: (shown as linux example, check nginx documents for other platforms)
-        - copy 'UBOXAI' file under UBOXAI folder just created, which is the configuration for nginx, to /etc/nginx/sites-available (e.g, cp UBOXAI /etc/nginx/sites-available)
-          - modify 'root /uboxai/ui/build;' in UBOXAI file, use your own ui/build path to replace '/uboxai/ui/build' if necessary
-        - ln -s /etc/nginx/sites-available/UBOXAI /etc/nginx/sites-enabled/ (probably you need to 'sudo ln ...'
+        - copy 'uboxai' file under UBOXAI folder just created, which is the configuration for nginx, to /etc/nginx/sites-available (e.g, cp UBOXAI /etc/nginx/sites-available)
+          - modify 'root /uboxai/ui/build;' in uboxai file, use your own ui/build path to replace '<your path to>/UBOXAI/ui/build' as necessary
+        - ln -s /etc/nginx/sites-available/uboxai /etc/nginx/sites-enabled/ (probably you need to 'sudo ln ...'
       - restart nginx (in Linux: service nginx restart)
     - Start uboxai
       - at uboxai root, start ./entry_start.sh
