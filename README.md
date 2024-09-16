@@ -6,7 +6,6 @@ Plug-and-Play AI Document Processing & Knowledge Machine for Every Business with
 
 * [Description](#description)
 * [Architecture](#architecture)
-* [Small LLM (SLM) in Power](#slm-in-power)
 * [Installation](#installation)
 * [Knowledge Warehouse](#knowledge-warehouse)
 
@@ -42,14 +41,6 @@ All services are deployed on one single host machine.
   - If you do not want to set up Ollama, you can use OpenAI by providing your OpenAI key as well.
 
 <img width="913" alt="Screenshot 2024-09-15 at 12 27 03" src="https://github.com/user-attachments/assets/315022da-4268-4ce8-ae70-200e5db77f86">
-
-## SLM In Power
-
-One key constraint of small LLM (SLM) is to control the context length - to make the SLM work in wonder, we need to make the context meaningfully short - the semantic search tree (SST) makes this possible. The tree is built upon long document(s), and the leaf nodes are clustered by their semantic meanings, and so does the parent nodes till root. To retrieve the context for a query, we search this tree for the top contextual results.
-
-Reference:
-- "WALKING DOWN THE MEMORY MAZE: BEYOND CONTEXT LIMIT THROUGH INTERACTIVE READING" https://arxiv.org/pdf/2310.05029
-- R tree: https://www.bartoszsypytkowski.com/r-tree/
 
 ## Installation
 
