@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Fetch the local IP address (assuming the first one is the desired one)
-#IP=$(ipconfig getifaddr en0)
+# IP=$(ipconfig getifaddr en0)
 IP=$1
 # OpenAI key
 OPENAIKEY=$2
@@ -57,22 +57,23 @@ service nginx restart
 cd ..
 
 echo "Starting UBOX AI Server..."
-#kill tmux
-tmux kill-session
-tmux kill-session
+# kill tmux
+# tmux kill-session
+# tmux kill-session
 
 # start venv
 source /uboxai/bin/activate 
 cd server
 echo current dictory: $(pwd)
+# echo python ubox_server.py --host $AIP --port $APORT --client-host $WIP --client-port $WPORT --openai-key $OPENAIKEY
 python ubox_server.py --host $AIP --port $APORT --client-host $WIP --client-port $WPORT --openai-key $OPENAIKEY
 
-#echo tmux new-session -d -s ai 
-#tmux new-session -d -s ai
+# echo tmux new-session -d -s ai 
+# tmux new-session -d -s ai
 
-#echo tmux send-keys -t ai "source /uboxai/bin/activate" C-m
-#tmux send-keys -t ai "source /uboxai/bin/activate" C-m
+# echo tmux send-keys -t ai "source /uboxai/bin/activate" C-m
+# tmux send-keys -t ai "source /uboxai/bin/activate" C-m
 
-#echo tmux send-keys -t ai "python ubox_server.py --host $AIP --port $APORT --client-host $WIP --client-port $WPORT --openai-key ''" C-m
-#tmux send-keys -t ai "python ubox_server.py --host $AIP --port $APORT --client-host $WIP --client-port $WPORT --openai-key ''" C-m
+# echo tmux send-keys -t ai "python ubox_server.py --host $AIP --port $APORT --client-host $WIP --client-port $WPORT --openai-key ''" C-m
+# tmux send-keys -t ai "python ubox_server.py --host $AIP --port $APORT --client-host $WIP --client-port $WPORT --openai-key ''" C-m
 
