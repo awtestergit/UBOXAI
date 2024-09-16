@@ -12,7 +12,7 @@ import numpy as np
 from interface.interface_model import IEmbeddingModel
 
 class OllamaNomicEmbeddingModel(IEmbeddingModel):
-    def __init__(self, host:str="http://localhost:11434", model:str='nomic-embed-text', max_context_length=8192) -> None:
+    def __init__(self, host:str="http://localhost:11434", model:str='nomic-embed-text', max_context_length=8192, max_embedding_dim=512) -> None:
         # assuming the model is running at host:str="http://localhost:11434",
         token_ex = 0.7 # 1 token ~= 0.7 character
         # max length 5000 = 8192*0.7
@@ -21,7 +21,11 @@ class OllamaNomicEmbeddingModel(IEmbeddingModel):
         self.client = Client(host=host)
         e = self.client.embeddings(model=model, prompt="hello")
         embedding_size = len(e['embedding'])
+        #if embedding_size is larger, then trim the dim to max_embedding_dim
+        self.need_normalize = (embedding_size > max_embedding_dim)
+        embedding_size = embedding_size if embedding_size < max_embedding_dim else max_embedding_dim
         self.EMBED_SIZE = embedding_size # embedding dimension of nomic
+        
 
     def encode(self, inputs:str, to_list=False):
         """
@@ -41,7 +45,7 @@ class OllamaNomicEmbeddingModel(IEmbeddingModel):
         #response = ollama.embeddings(model=self.model, prompt=inputs)
         response = self.client.embeddings(model=self.model, prompt=inputs)
         cut_dim = response['embedding'][:self.EMBED_SIZE]
-        norm_dim = normalize_l2(cut_dim)
+        norm_dim = normalize_l2(cut_dim) if self.need_normalize else cut_dim
         if not to_list:
             norm_dim = norm_dim.reshape(1, -1) # reshape to (1, EMBED_SIZE)
         return norm_dim
@@ -67,13 +71,14 @@ class GPTEmbeddingModel(IEmbeddingModel):
             'seq_length': 8192,
         }
     }
-    def __init__(self, key:str, model='text-embedding-3-small'):
+    def __init__(self, key:str, model='text-embedding-3-small', max_embedding_dim=512):
         self.EMBED_SIZE = self.gpt_embedding[model]['emb_length_use']
+        self.EMBED_SIZE = self.EMBED_SIZE if self.EMBED_SIZE < max_embedding_dim else max_embedding_dim
+        self.need_normalize = self.EMBED_SIZE != self.gpt_embedding[model]['emb_length_model']
         token_ex = 0.7
         self.MAX_LENGTH = int(self.gpt_embedding[model]['seq_length'] * token_ex)
         self.model = model
         self.client = OpenAI(api_key=key)
-        self.need_normalize = self.EMBED_SIZE != self.gpt_embedding[model]['emb_length_model']
 
     def encode(self, inputs:str, to_list=False):
         """
