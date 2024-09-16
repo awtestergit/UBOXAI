@@ -107,15 +107,15 @@ Once you have the UBOXAI set up, you can populate the knowledge warehouse, which
 **Note: There are plenty of works needed for the knowledge warehouse manager.**
 
 - If you use **Docker way**, you can run this command to get to docker:
-- ```bash
+  - ```bash
       docker run --name uboxai -p 11434:11434 -p 5000:5000 -p 5010:5010 -p 5050:5050 -it -d --privileged -v ./:/orig -v $(pwd)/qdrant_storage:/qdrant/storage:z -v dind-certs:/certs -v /var/run/docker.sock:/var/run/docker.sock -e DOCKER_TLS_CERTDIR=/certs awtestergit/uboxai:latest
       ```
 - If you use **Git pull way**, activate the virtual environment, e.g, 'conda activate uboxai'
-- go to folder /uboxai/server
-- start venv by 'source /uboxai/bin/activate'
-- start Knowledge Warehouse Manager by 'python vectordb_manager.py'
-- use web browser on the host machine, http://localhost:5010, to populate the warehouse
-  - for FAQ, you can bulk load by create the file using faq template. check faq template example.csv provided
-  - for uploading documents, you can use the manager to upload file(s)
+  - go to folder /uboxai/server
+  - start venv by 'source /uboxai/bin/activate'
+  - start Knowledge Warehouse Manager by 'python vectordb_manager.py'
+  - use web browser on the host machine, http://localhost:5010, to populate the warehouse
+    - for FAQ, you can bulk load by create the file using faq template. check faq template example.csv provided
+    - for uploading documents, you can use the manager to upload file(s)
 
 After the population, you can use Docknow to query - if the query hits FAQ, then the answer will be returned from FAQ; if not, the query will search from the documents uploaded to vector database and LLM will answer accordingly.
