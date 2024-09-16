@@ -17,7 +17,6 @@ import math
 import numpy as np
 from anbutils import utilities
 from interface.interface_model import ILanguageModel, IEmbeddingModel, llm_continue, ContinueExit
-from data_structure.model_tree import model_tree
 from qdrantclient_vdb.qdrant_manager import qcVdbManager
 
 class webui_handlers():
@@ -778,122 +777,6 @@ You must answer in English.
             _summary = model.generate(inputs=inputs, splitter=splitter, stop=stop, replace_stop=False, **kwargs)
             #print(f"extract summary length {len(_summary)}: {_summary}")
             return _summary
-
-    def __encode__(self, input:str):
-        output = self.emb_model.encode(input)
-        return output
-
-    def __distance__(self,a, b):
-        # a, b - both shape as (1, emb_size) returned by emb.encode()
-        assert a.shape == b.shape
-        a = a.squeeze() # to array
-        b = b.squeeze() # to array
-        dot_product = np.dot(a, b)
-        norm_a = np.linalg.norm(a)
-        norm_b = np.linalg.norm(b)
-        return dot_product / (norm_a * norm_b)
-
-    def __fn_eval__(self, _inputs, query):
-        """
-        inputs:list of [index, summary, Tensor]
-            query: query tensor
-        find the max cosine score
-        """
-        index = -1
-        score = -1.
-        for _input in _inputs:
-            _distance = self.__distance__(_input[-1], query)
-            if _distance > score:
-                score = _distance
-                index = _input[0] #index
-        return index
-        
-    def __create_content_tree_from_files__(self, files:list[str], model:ILanguageModel, emb_model:ILanguageModel, MAX:int, k:int, force_build=False, read_by=2, is_ocr=False, continue_flag:llm_continue=None)->model_tree:
-        """
-        files: a list of files
-        model: LLM model
-        emb_model: embedding model
-        MAX: max length of leaf / node summary
-        k: number of k children nodes per parent
-        force_build: if false (default), will not build the tree when the total length of files is less than model.MAX_LENGTH
-        output: model_tree, holding all contents of all files
-        exception: this will raise ContinueExit from llm generate/chats, caller needs to handle ContinueExit
-        """
-        texts = [] # holder for all chunks of all files
-        total_length = 0
-        for filename in files:
-            reader = self.__get_reader_by_filename__(filename=filename, is_ocr=is_ocr)
-            chunks = reader.read_doc_to_texts(doc_path=filename, read_by=read_by, streaming=False, continue_flag=continue_flag) # read by 'paragraph'
-            # for each file, break into chunks
-            chunk_size = MAX
-            overlap = int(chunk_size * 0.1)
-            _texts = [] # temp holder for this file
-            for chunk in chunks:
-                if len(chunk) <= MAX: # add directly
-                    _texts.append(chunk) # append text string
-                else: #break into smaller chunks
-                    _chunks = utilities.break_long_texts_into_chunks(chunk, chuck_size=chunk_size, overlap=overlap)
-                    _texts.extend(_chunks) # extend the text list
-            #print(f"filename: {filename}, the number of chunks: {len(_texts)}")
-            texts.extend(_texts) #save it to texts
-
-        ### functions ###
-        def __summarize__(_input:str)->str:
-            """
-            input: string, xxxx\n\nyyyy\n\n...
-            if string length > EMB.MAX_SIZE * 1.1 (over 10%), then extract summary
-            otherwise just return the string
-            """
-            if len(_input) > MAX:
-                return self.__extract_summary__(model=model, text=_input, length=MAX, continue_flag=continue_flag)
-            else:
-                return _input
-
-        def __encode__(_input:str):
-            return self.__encode__(input=_input)
-
-        def __distance__(a, b):
-            return self.__distance__(a,b)
-
-        def __fn_eval__(_inputs, query):
-            return self.__fn_eval__(_inputs, query)
-        ### end functions ###
-
-        #### if not force_build, check total length ####
-        if not force_build:
-            for text in texts:
-                total_length += len(text)
-            #print(f"total length: {total_length}; model MAX_LENGTH: {model.MAX_LENGTH}")
-            if total_length < model.MAX_LENGTH:
-                # no further processing, create tree node and return
-                _tree = model_tree(fn_summary=__summarize__, fn_encode=__encode__, fn_distance=__distance__, fn_eval=__fn_eval__, k=k, MAX=MAX)
-                text = ''.join(texts)
-                _tree.create_psudo_tree(text)
-                return _tree
-        ###########################################
-
-        _tree = model_tree(fn_summary=__summarize__, fn_encode=__encode__, fn_distance=__distance__, fn_eval=__fn_eval__, k=k, MAX=MAX)
-        _tree.create_tree(texts)
-
-        return _tree
-
-    def __create_summary_from_content_tree__(self, _tree:model_tree, model:ILanguageModel, MAX:int, stream=False, continue_flag:llm_continue=None):
-        """
-        if _tree.root.children texts length > model.MAX_LENGTH, force summary
-        exception: this will raise ContinueExit from llm generate/chats, caller needs to handle ContinueExit
-        """
-        summary = []
-        summary = [child.item for child in _tree.root.children]
-        text = ''.join(summary)
-        force_summary = len(text) > model.MAX_LENGTH
-        if force_summary: # use LLM to generate summary
-            output = self.__extract_summary__(model=model, text=text, length=MAX, stream=stream, continue_flag=continue_flag)
-            if stream: # return generator
-                return output
-            # else the list
-            summary = [output]
-        return summary # list
-
 
     def doc_know(self, query: str, tools, history=None, splitter='', stop=[], replace_stop=False, streaming=True, streaming_delta=True, top=3, faq_conf=0.95, vdb_conf=0.6, rerank_threshold=0.9, rerank_min_score=0.1, bot_name='ubox', continue_flag:llm_continue=None,  **kwargs) -> tuple[bool, str|Iterator]:
         """
