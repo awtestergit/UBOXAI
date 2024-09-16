@@ -66,6 +66,10 @@ source /uboxai/bin/activate
 cd server
 echo current dictory: $(pwd)
 # echo python ubox_server.py --host $AIP --port $APORT --client-host $WIP --client-port $WPORT --openai-key $OPENAIKEY
+if [ -z "$OPENAIKEY" ]; then
+    python ubox_server.py --host $AIP --port $APORT --client-host $WIP --client-port $WPORT
+fi
+# else
 python ubox_server.py --host $AIP --port $APORT --client-host $WIP --client-port $WPORT --openai-key $OPENAIKEY
 
 # echo tmux new-session -d -s ai 
