@@ -54,10 +54,11 @@ All services are deployed on one single host machine.
     - ```bash
       docker run -p 6333:6333 -p 6334:6334 -v $(pwd)/qdrant_storage:/qdrant/storage:z qdrant/qdrant
       ```
-- **Ollama & Models (If you plan to use OpenAI, skip this step)**
+- **Ollama & Models (If you plan to use OpenAI, skip this step. Note: OpenAI, Ollama different models use different embedding - the search result won't be satisfactory if you mix them)**
   - go to https://ollama.com/ to install ollama if you have not yet installed it.
   - pull Llama3.1 for LLM, https://ollama.com/library/llama3.1, you can pull 8B or larger depending on your host machine's GPU.
   - pull nomic-embed-text for embedding, https://ollama.com/library/nomic-embed-text
+
 - **UBOXAI installation, you can either pull docker (the easiest way) or pull git, build and run**
   - **Docker way**
     - ```bash
